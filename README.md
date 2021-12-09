@@ -65,3 +65,106 @@ Promise.race also accepts an array of promises, but returns the first promise th
 Sometimes your promises may contain large tasks that eat a lot of resources or take a lot of time to process. Running everything at once can be too costly, but running one task at a time may take too long. A possible solution for this is to create a task queue that can run a specified number of tasks concurrently at the same time. Let's implement a promise queue that can run a specified number of promises at the same time.
 
 [node js example](https://github.com/laissonsilveira/nodejs-advanced/blob/main/concurrent-tasks/index.js)
+
+# 2. Advanced Streams
+
+A stream is an abstract interface for working with streaming data in Node.js. The stream module provides an API for implementing the stream interface.
+
+There are many stream objects provided by Node.js. For instance, a request to an HTTP server and process.stdout are both stream instances.
+
+Streams can be readable, writable, or both. All streams are instances of EventEmitter.
+
+To access the stream module: `const stream = require('stream');`
+
+The stream module is useful for creating new types of stream instances. It is usually not necessary to use the stream module to consume streams.
+
+[Document about Node.js Stream](https://nodejs.org/docs/latest-v16.x/api/stream.html)
+
+## Why streams
+
+We have Scavenge, and we have Mark-sweep.
+
+If you execute...
+
+`node --trace_gc buffer-vs-stream/stream.js (-40mb in memory)`
+
+`node --trace_gc buffer-vs-stream/buffer.js`
+
+...you're gonna notice that we have actually, a lot of these Mark-sweeps in buffer. So this Mark-sweep is actually a much bigger deal because Mark-sweep is gonna stop your node process to clean up a lot of garbage. The Scavenge doesn't clean up as much garbage, and stream use only this in this example.
+
+[buffer vs stream](https://github.com/laissonsilveira/nodejs-advanced/blob/main/buffer-vs-stream)
+
+## Readable streams
+
+Readable streams are an abstraction for a source from which data is consumed.
+
+Examples of Readable streams include:
+
+* HTTP responses, on the client
+* HTTP requests, on the server
+* fs read streams
+* zlib streams
+* crypto streams
+* TCP sockets
+* child process stdout and stderr
+* process.stdin
+
+All Readable streams implement the interface defined by the stream.Readable class.
+
+[node js example](https://github.com/laissonsilveira/nodejs-advanced/blob/main/readable-stream/index.js)
+
+## Writable streams
+
+Writable streams are an abstraction for a destination to which data is written.
+
+Examples of Writable streams include:
+
+* HTTP requests, on the client
+* HTTP responses, on the server
+* fs write streams
+* zlib streams
+* crypto streams
+* TCP sockets
+* child process stdin
+* process.stdout, process.stderr
+
+Some of these examples are actually Duplex streams that implement the Writable interface.
+
+All Writable streams implement the interface defined by the stream.Writable class.
+
+[node js example](https://github.com/laissonsilveira/nodejs-advanced/blob/main/writable-streams/index.js)
+
+## Backpressure
+
+For ex, can happen's when receive more readstream then can write, so...
+
+[node js example](https://github.com/laissonsilveira/nodejs-advanced/blob/main/backpressure/index.js)
+
+## Piping streams
+
+The `readable.pipe()` method attaches a Writable stream to the readable, causing it to switch automatically into flowing mode and push all of its data to the attached Writable. The flow of data will be automatically managed so that the destination Writable stream is not overwhelmed by a faster Readable stream.
+
+[node js example](https://github.com/laissonsilveira/nodejs-advanced/blob/main/pipe-streams/index.js)
+
+## Duplex streams
+
+Duplex streams are streams that implement both the Readable and Writable interfaces.
+
+Examples of Duplex streams include:
+
+* TCP sockets
+* zlib streams
+* crypto streams
+
+[node js example](https://github.com/laissonsilveira/nodejs-advanced/blob/main/duplex-streams/index.js)
+
+## Transforms streams
+
+Transform streams are Duplex streams where the output is in some way related to the input. Like all Duplex streams, Transform streams implement both the Readable and Writable interfaces.
+
+Examples of Transform streams include:
+
+* zlib streams
+* crypto streams
+
+[node js example](https://github.com/laissonsilveira/nodejs-advanced/blob/main/transform-streams/index.js)
