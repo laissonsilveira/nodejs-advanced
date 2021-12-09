@@ -168,3 +168,13 @@ Examples of Transform streams include:
 * crypto streams
 
 [node js example](https://github.com/laissonsilveira/nodejs-advanced/blob/main/transform-streams/index.js)
+
+# 3. HTTP Streaming
+
+A web server that handles upload and download streams.
+
+[web server files here](https://github.com/laissonsilveira/nodejs-advanced/blob/main/http-stream/index.js)
+
+Upload: `http://localhost:3000`
+
+Download: `http://localhost:3000/video`
